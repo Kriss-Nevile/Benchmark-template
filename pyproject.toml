@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "summarization-benchmark-template"
+version = "0.1.0"
+description = "A beginner-friendly Python template for benchmarking summarization models with reusable metrics."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "OpenAI Codex" }
+]
+dependencies = [
+  "bert-score>=0.3.13",
+  "nltk>=3.8",
+  "numpy>=1.24",
+  "openpyxl>=3.1",
+  "pandas>=2.0",
+  "python-dotenv>=1.0",
+  "rouge-score>=0.1.2",
+  "sentence-transformers>=2.7.0",
+  "tqdm>=4.66"
+]
+
+[project.optional-dependencies]
+openai = ["openai>=1.40.0"]
+judge = ["google-generativeai>=0.8.0"]
+huggingface = ["torch>=2.3.0", "transformers>=4.44.0"]
+dev = ["pytest>=8.0.0"]
+all = [
+  "google-generativeai>=0.8.0",
+  "openai>=1.40.0",
+  "torch>=2.3.0",
+  "transformers>=4.44.0"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
