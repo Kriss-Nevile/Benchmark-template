@@ -7,7 +7,7 @@ from summbench.nltk_utils import ensure_nltk_resources
 
 
 class SelfCheckMetrics:
-    """SelfCheck-based metrics taken from the original notebook."""
+    """[DEPRECATED] SelfCheck-based metrics taken from the original notebook."""
 
     def __init__(self, bertscore_lang: str = "en") -> None:
         self.bertscore_lang = bertscore_lang

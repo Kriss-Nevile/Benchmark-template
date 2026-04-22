@@ -9,7 +9,7 @@ def combine_hallucination_signals(
     reference_weight: float = 0.3,
     selfcheck_weight: float = 0.4,
 ) -> float | None:
-    """Combine the main hallucination signals using the notebook formula."""
+    """[DEPRECATED] Combine the main hallucination signals using the notebook formula."""
     if source_f1 is None or reference_f1 is None or official_selfcheck_score is None:
         return None
 

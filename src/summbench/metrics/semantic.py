@@ -59,3 +59,28 @@ class SentenceSimilarityMetric:
             f1 = float(2 * (precision * recall) / (precision + recall))
         return precision, recall, f1
 
+
+class BERTScoreMetric:
+    """Standalone BERTScore metric."""
+
+    def __init__(self, lang: str = "en", rescale_with_baseline: bool = True) -> None:
+        self.lang = lang
+        self.rescale_with_baseline = rescale_with_baseline
+
+    def score(self, source: str, summary: str) -> tuple[float, float, float]:
+        try:
+            from bert_score import score as bertscore
+        except ImportError as exc:
+            raise ImportError("bert-score is not installed. Run: pip install -e .") from exc
+
+        if not source.strip() or not summary.strip():
+            return 0.0, 0.0, 0.0
+
+        p, r, f1 = bertscore(
+            [summary],
+            [source],
+            lang=self.lang,
+            rescale_with_baseline=self.rescale_with_baseline,
+        )
+        return float(p[0]), float(r[0]), float(f1[0])
+
