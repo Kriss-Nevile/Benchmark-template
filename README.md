@@ -1,7 +1,4 @@
 # Summarization Benchmark Template
-
-This repository turns the ideas from `benchmark.ipynb` and `Benchmarkanalysis.ipynb` into a small Python project that is easier to reuse, extend, and hand to someone new to coding.
-
 ## What this template gives you
 
 - One place for metric implementations.
