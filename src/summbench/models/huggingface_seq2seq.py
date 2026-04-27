@@ -60,9 +60,22 @@ class HuggingFaceSeq2SeqSummarizer(SummarizationModel):
         model = self._model
         assert tokenizer is not None and model is not None
 
-        # For sequence-to-sequence models, we typically prepend a prompt directly
-        # rather than using a chat template.
-        prompt = f"Hãy tóm tắt văn bản sau: {source}"
+        # Format input based on the model's pre-training/fine-tuning requirements
+        if "vit5" in self.model_name.lower():
+            # Vit-5 summarization models expect the 'vietnews: ' prefix
+            prompt = f"vietnews: {source} </s>"
+        elif "bartpho" in self.model_name.lower() and "word" in self.model_name.lower():
+            # BARTpho-word expects word-segmented input (using pyvi or VnCoreNLP)
+            try:
+                from pyvi import ViTokenizer
+                prompt = ViTokenizer.tokenize(source)
+            except ImportError as exc:
+                raise ImportError(
+                    "The 'pyvi' package is required for BARTpho word segmentation. "
+                    "Run: pip install pyvi"
+                ) from exc
+        else:
+            prompt = source
 
         inputs = tokenizer(
             prompt,
