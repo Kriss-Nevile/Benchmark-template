@@ -1,13 +1,15 @@
 import argparse
+import sys
 import time
 from pathlib import Path
 
 import pandas as pd
 from tqdm import tqdm
 
-from summbench.models import HuggingFaceSeq2SeqSummarizer
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
+
+from summbench.models import HuggingFaceSeq2SeqSummarizer
 
 def main():
     parser = argparse.ArgumentParser(description="Run Vietnamese Summarization Benchmark")
