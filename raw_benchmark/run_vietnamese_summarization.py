@@ -80,17 +80,27 @@ def main():
     
     for i, row in enumerate(tqdm(dataset, desc=f"Benchmarking {args.model}")):
         # row contains: 'id', 'document', 'summary', 'source'
-        prediction = model.generate_summary(row["document"], temperature=0.0)
+        # Ensure input is a string
+        document = str(row["document"])
         
-        # Create a new dict with original data + prediction
-        result_row = dict(row)
-        result_row["prediction"] = prediction
+        prediction = model.generate_summary(document, temperature=0.0)
+        
+        # Create a new dict and ensure all values are decoded strings (not bytes)
+        result_row = {}
+        for k, v in row.items():
+            if isinstance(v, bytes):
+                result_row[k] = v.decode("utf-8")
+            else:
+                result_row[k] = str(v)
+                
+        result_row["prediction"] = str(prediction)
         results.append(result_row)
         
         if (i + 1) % args.save_every == 0:
-            pd.DataFrame(results).to_csv(out_dir / "predictions_partial.csv", index=False)
+            # Use utf-8-sig to ensure Excel and other tools open Vietnamese characters correctly
+            pd.DataFrame(results).to_csv(out_dir / "predictions_partial.csv", index=False, encoding="utf-8-sig")
             
-    pd.DataFrame(results).to_csv(out_dir / "predictions.csv", index=False)
+    pd.DataFrame(results).to_csv(out_dir / "predictions.csv", index=False, encoding="utf-8-sig")
     print("Benchmark finished!")
 
 if __name__ == "__main__":
