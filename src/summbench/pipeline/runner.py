@@ -71,14 +71,14 @@ class BenchmarkRunner:
             example.article,
             temperature=self.main_temperature,
         )
-        samples = self.model.generate_samples(
-            example.article,
-            count=self.sample_count_for_selfcheck,
-            temperature=self.sample_temperature,
-        )
+        # samples = self.model.generate_samples(
+        #     example.article,
+        #     count=self.sample_count_for_selfcheck,
+        #     temperature=self.sample_temperature,
+        # )
 
-        official_selfcheck = self.selfcheck.compute_official_score(model_summary, samples)
-        custom_selfcheck = self.selfcheck.compute_custom_score(model_summary, samples)
+        # official_selfcheck = self.selfcheck.compute_official_score(model_summary, samples)
+        # custom_selfcheck = self.selfcheck.compute_custom_score(model_summary, samples)
 
         _, _, source_f1 = self.sentence_similarity.score(example.article, model_summary)
         _, _, reference_f1 = self.sentence_similarity.score(
@@ -95,15 +95,15 @@ class BenchmarkRunner:
             "article": example.article,
             "reference_summary": example.reference_summary,
             "model_summary": model_summary,
-            "official_selfcheck_score": official_selfcheck,
-            "custom_selfcheck_score": custom_selfcheck,
+            # "official_selfcheck_score": official_selfcheck,
+            # "custom_selfcheck_score": custom_selfcheck,
             "source_f1": source_f1,
             "reference_f1": reference_f1,
-            "hallucination_score": combine_hallucination_signals(
-                source_f1=source_f1,
-                reference_f1=reference_f1,
-                official_selfcheck_score=official_selfcheck,
-            ),
+            # "hallucination_score": combine_hallucination_signals(
+            #     source_f1=source_f1,
+            #     reference_f1=reference_f1,
+            #     official_selfcheck_score=official_selfcheck,
+            # ),
         }
 
         row.update(compute_rouge_scores(example.reference_summary, model_summary))
